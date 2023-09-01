@@ -35,6 +35,7 @@ public class InventoryTest extends Base {
         changeSortingAndCompare(itemAZName, itemZAName);
     }
 
+    //HomeWork
     @Test
     public void sortingItemsPrice() {
         login(STANDARD_USER, PASSWORD);
