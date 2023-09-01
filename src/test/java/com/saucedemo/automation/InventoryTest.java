@@ -1,14 +1,10 @@
 package com.saucedemo.automation;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
@@ -40,14 +36,26 @@ public class InventoryTest extends Base {
     }
 
     @Test
+    public void sortingItemsPrice() {
+        login(STANDARD_USER, PASSWORD);
+        changePriceSorting(".product_sort_container", "option[value='lohi']");
+        List<String> itemHiPrice = new ArrayList<>();
+        List<String> itemLoPrice = new ArrayList<>();
+        List<WebElement> itemsHi = getInventoryItemsPrice();
+        extractTextFromWebElementsAndPopulateList(itemHiPrice, itemsHi);
+        changePriceSorting(".product_sort_container", "option[value='hilo']");
+        List<WebElement> itemsLo = getInventoryItemsPrice();
+        extractTextFromWebElementsAndPopulateList(itemLoPrice, itemsLo);
+        Collections.reverse(itemHiPrice);
+        assertEquals(itemHiPrice, itemLoPrice);
+    }
+
+
+    @Test
     public void addToCart() {
         login(STANDARD_USER, PASSWORD);
         int countAddToCartButtons = getSize(".btn.btn_primary.btn_small.btn_inventory");
         clickOnElement(".btn.btn_primary.btn_small.btn_inventory");
         assertEquals(getSize(".btn.btn_primary.btn_small.btn_inventory"), countAddToCartButtons-1);
-
-
     }
-
-
 }

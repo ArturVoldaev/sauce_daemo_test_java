@@ -10,6 +10,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -130,6 +131,8 @@ public class Base {
     public void changeSortingAndCompare(List<String> itemAZName, List<String> itemZAName) {
         Comparator<String> reverseComparator = Comparator.reverseOrder();
         itemAZName.sort(reverseComparator); //AZ -> ZA
+        System.out.println("=====================================");
+        System.out.println(Arrays.toString(new List[]{itemAZName}));
         assertEquals(itemAZName, itemZAName);
     }
 
@@ -143,6 +146,15 @@ public class Base {
 
     public List<WebElement> getInventoryItems() {
         return driver.findElements(By.cssSelector(".inventory_item_name"));
+    }
+
+    public List<WebElement> getInventoryItemsPrice() {
+        return driver.findElements(By.cssSelector(".inventory_item_price"));
+    }
+
+    public void changePriceSorting(String element, String value) {
+        clickOnElement(element);
+        clickOnElement(value);
     }
 
 }

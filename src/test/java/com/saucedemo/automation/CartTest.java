@@ -15,7 +15,6 @@ public class CartTest extends Base {
         login(STANDARD_USER, PASSWORD);
         clickOnElement(".btn.btn_primary.btn_small.btn_inventory");
         openCart();
-
         clickOnElement("btn.btn_secondary.btn_small.cart_button");
     }
 
