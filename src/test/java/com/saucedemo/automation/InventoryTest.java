@@ -4,59 +4,59 @@ import org.openqa.selenium.WebElement;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
-import static org.testng.AssertJUnit.assertEquals;
 
-public class InventoryTest extends Base {
+public class InventoryTest extends TestBase {
     @BeforeMethod
     public void setup() {
-        logoutIfLoggin();
+        app.getLoginHelper().logoutUserIfLogged();
     }
 
     @Test
     public void inventoryItemsOnPage() {
-        login(STANDARD_USER, PASSWORD);
-        assertTrue(isElementDisplayed(".inventory_item"));
-        assertTrue(countElementOnPage(".inventory_item", 6));
+        app.getLoginHelper().loginWithStandartUser();
+        assertTrue(app.getBaseHelper().isElementDisplayed(".inventory_item"));
+        assertTrue(app.getBaseHelper().countElementsOnPage(".inventory_item", 6));
     }
 
     @Test
     public void sortingItemsAlphabetic() {
-        login(STANDARD_USER, PASSWORD);
+        app.getLoginHelper().loginWithStandartUser();
         List<String> itemAZName = new ArrayList<>();
         List<String> itemZAName = new ArrayList<>();
-        List<WebElement> itemsAZ = getInventoryItems();
-        extractTextFromWebElementsAndPopulateList(itemAZName, itemsAZ);
-        changeSortingZA();
-        List<WebElement> itemsZA = getInventoryItems();
-        extractTextFromWebElementsAndPopulateList(itemZAName, itemsZA);
-        changeSortingAndCompare(itemAZName, itemZAName);
+
+        List<WebElement> itemsAZ = app.getInvetoryHelper().getInventoryItems();
+        app.getSortingHelper().extractTextFromWebElementsAndPopulateList(itemAZName, itemsAZ);
+        app.getSortingHelper().changeSortingZA();
+        List<WebElement> itemsZA = app.getInvetoryHelper().getInventoryItems();
+        app.getSortingHelper().extractTextFromWebElementsAndPopulateList(itemZAName, itemsZA);
+        app.getSortingHelper().changeSortingAndCompare(itemAZName, itemZAName);
     }
 
-    //HomeWork
     @Test
-    public void sortingItemsPrice() {
-        login(STANDARD_USER, PASSWORD);
-        changePriceSorting(".product_sort_container", "option[value='lohi']");
-        List<String> itemHiPrice = new ArrayList<>();
-        List<String> itemLoPrice = new ArrayList<>();
-        List<WebElement> itemsHi = getInventoryItemsPrice();
-        extractTextFromWebElementsAndPopulateList(itemHiPrice, itemsHi);
-        changePriceSorting(".product_sort_container", "option[value='hilo']");
-        List<WebElement> itemsLo = getInventoryItemsPrice();
-        extractTextFromWebElementsAndPopulateList(itemLoPrice, itemsLo);
-        Collections.reverse(itemHiPrice);
-        assertEquals(itemHiPrice, itemLoPrice);
+    public void sortingByPrice() {
+        System.out.println("СДЕЛАЙ МЕНЯ ДОМА");
     }
-
 
     @Test
     public void addToCart() {
-        login(STANDARD_USER, PASSWORD);
-        int countAddToCartButtons = getSize(".btn.btn_primary.btn_small.btn_inventory");
-        clickOnElement(".btn.btn_primary.btn_small.btn_inventory");
-        assertEquals(getSize(".btn.btn_primary.btn_small.btn_inventory"), countAddToCartButtons-1);
+        app.getLoginHelper().loginWithStandartUser();
+        int countAddToCartBtns = app.getInvetoryHelper().getCountAddInventoryBtns();
+        app.getBaseHelper().clickOnElement(".btn.btn_primary.btn_small.btn_inventory");
+        app.getBaseHelper().pause(100);
+        assertEquals(app.getInvetoryHelper().getCountAddInventoryBtns(),
+                countAddToCartBtns - 1);
+        assertEquals(app.getInvetoryHelper().getShoppingCartBadgeCount(), 1);
+        app.getCartHelper().openCart();
+        assertEquals(app.getBaseHelper().getSizeElementsOnPage(".cart_item"), 1);
+
+        // cleanup
+        app.getBaseHelper().clickOnElement("#continue-shopping");
+        app.getBaseHelper().clickOnElement(".btn.btn_primary.btn_small.btn_inventory");
     }
+
 }

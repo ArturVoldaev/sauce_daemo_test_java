@@ -1,33 +1,33 @@
 package com.saucedemo.automation;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class FooterTest extends Base {
+import static org.testng.Assert.assertTrue;
+
+public class FooterTest extends TestBase {
 
     @BeforeMethod
     public void setup() {
-        logoutIfLoggin();
+        app.getLoginHelper().logoutUserIfLogged();
     }
 
     @Test
-    public void logoutFooter() {
-        Assert.assertTrue(isElementNotDisplayed(".footer"));
+    public void unloggedFooter() {
+        assertTrue(app.getBaseHelper().isElementNotDisplayed(".footer"));
     }
 
     @Test
     public void inventoryPageFooter() {
-        login(STANDARD_USER, PASSWORD);
-        Assert.assertTrue(isElementDisplayed(".footer"));
+        app.getLoginHelper().loginWithStandartUser();
+        assertTrue(app.getBaseHelper().isElementDisplayed(".footer"));
     }
 
     @Test
     public void cartPageFooter() {
-        login(STANDARD_USER, PASSWORD);
-        openCart();
-        Assert.assertTrue(isElementDisplayed(".footer"));
-
+        app.getLoginHelper().loginWithStandartUser();
+        app.getCartHelper().openCart();
+        assertTrue(app.getBaseHelper().isElementDisplayed(".footer"));
     }
 
 }
