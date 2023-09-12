@@ -11,6 +11,9 @@ public class LoginHelper extends BaseHelper {
         super(driver);
     }
 
+
+
+
     public void login(User user) {
         fillField(user.getUserName(), "#user-name");
         fillField(user.getPassword(), "#password");
