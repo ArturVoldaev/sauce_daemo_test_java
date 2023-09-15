@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class DataProviders {
-    protected static final ApplicationManager app = new ApplicationManager();
+    public static final ApplicationManager app = new ApplicationManager();
     @DataProvider
     static public Iterator<Object[]> negativeUsers() {
         List<Object[]> list = new ArrayList<>();
@@ -43,11 +43,12 @@ public class DataProviders {
 
     @DataProvider
     static public Iterator<Object[]> positiveUsers() {
+        System.out.println("fsdfsdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         List<Object[]> list = new ArrayList<>();
-        list.add(new Object[]{app.getBaseHelper().STANDARD_USER, app.getBaseHelper().PASSWORD});
+        list.add(new Object[]{ app.getBaseHelper().STANDARD_USER, app.getBaseHelper().PASSWORD});
         list.add(new Object[]{app.getBaseHelper().PROBLEM_USER, app.getBaseHelper().PASSWORD});
         list.add(new Object[]{app.getBaseHelper().PERF_USER, app.getBaseHelper().PASSWORD});
-
+        System.out.println(list);
         return list.iterator();
     }
 }

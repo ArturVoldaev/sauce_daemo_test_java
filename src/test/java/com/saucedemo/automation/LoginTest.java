@@ -1,16 +1,9 @@
 package com.saucedemo.automation;
 
 import model.User;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import utils.DataProviders;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
 public class LoginTest extends TestBase {
 
@@ -19,8 +12,11 @@ public class LoginTest extends TestBase {
         app.getLoginHelper().logoutUserIfLogged();
     }
 
+
     @Test
-    public void standardUserLogin() {
+    @Parameters({"username", "password"})
+    public void standardUserLogin(String use, String pas) {
+        System.out.println(use + pas);
         app.getLoginHelper().loginWithStandartUser();
         app.getInvetoryHelper().inventoryPageDisplayed();
     }
@@ -44,6 +40,7 @@ public class LoginTest extends TestBase {
         app.getLoginHelper().loginErrorMessageIsDisplayed();
     }
 
+   // @Test(dataProvider = "positiveUsers", dataProviderClass = DataProviders.class)
     @Test(dataProvider = "positiveUsers", dataProviderClass = DataProviders.class)
     public void standardUserLoginWithDataProvider(String userName, String userPassword) {
         app.getLoginHelper().login(new User()
