@@ -16,7 +16,6 @@ public class LoginTest extends TestBase {
     @Test
     @Parameters({"username", "password"})
     public void standardUserLogin(String use, String pas) {
-        System.out.println(use + pas);
         app.getLoginHelper().loginWithStandartUser();
         app.getInvetoryHelper().inventoryPageDisplayed();
     }

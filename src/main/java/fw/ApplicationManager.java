@@ -1,14 +1,16 @@
 package fw;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
+import utils.MyListener;
 
 import java.time.Duration;
 
 
 public class ApplicationManager {
 
-    WebDriver driver;
+    EventFiringWebDriver  driver;
+    //WebDriver driver;
 
     CartHelper cartHelper;
     InvetoryHelper invetoryHelper;
@@ -42,7 +44,7 @@ public class ApplicationManager {
 
     public void init() {
         final String URL = "https://www.saucedemo.com/";
-        driver = new ChromeDriver();
+        driver =new EventFiringWebDriver(new ChromeDriver());
         driver.get(URL);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
@@ -52,6 +54,8 @@ public class ApplicationManager {
         loginHelper = new LoginHelper(driver);
         sortingHelper = new SortingHelper(driver);
         baseHelper = new BaseHelper(driver);
+
+        driver.register(new MyListener());
     }
 
 }
